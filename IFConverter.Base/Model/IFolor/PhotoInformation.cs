@@ -12,7 +12,7 @@ namespace IFConverter.Base.Model.IFolor
         [XmlElement(ElementName = "OriginFilePath")]
         public string OriginFilePath { get; set; }
         [XmlAttribute(AttributeName = "isJpeg")]
-        public string IsJpeg { get; set; }
+        public bool IsJpeg { get; set; }
         [XmlAttribute(AttributeName = "pictureOrientation")]
         public string PictureOrientation { get; set; }
     }

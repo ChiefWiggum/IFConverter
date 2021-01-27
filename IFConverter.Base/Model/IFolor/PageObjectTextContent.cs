@@ -6,7 +6,7 @@ namespace IFConverter.Base.Model.IFolor
     public class PageObjectTextContent
     {
         [XmlAttribute(AttributeName = "isColorized")]
-        public string IsColorized { get; set; }
+        public bool IsColorized { get; set; }
         [XmlAttribute(AttributeName = "textId")]
         public string TextId { get; set; }
         [XmlAttribute(AttributeName = "verticalTextAlign")]

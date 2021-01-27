@@ -12,29 +12,29 @@ namespace IFConverter.Base.Model.IFolor
         [XmlElement(ElementName = "ProductionObjects")]
         public ProductionObjects ProductionObjects { get; set; }
         [XmlAttribute(AttributeName = "width")]
-        public string Width { get; set; }
+        public int Width { get; set; }
         [XmlAttribute(AttributeName = "height")]
-        public string Height { get; set; }
+        public int Height { get; set; }
         [XmlAttribute(AttributeName = "dpi")]
-        public string Dpi { get; set; }
+        public int Dpi { get; set; }
         [XmlAttribute(AttributeName = "pageNumberHorizontalOffset")]
-        public string PageNumberHorizontalOffset { get; set; }
+        public int PageNumberHorizontalOffset { get; set; }
         [XmlAttribute(AttributeName = "pageNumberVerticalOffset")]
-        public string PageNumberVerticalOffset { get; set; }
+        public int PageNumberVerticalOffset { get; set; }
         [XmlAttribute(AttributeName = "arrangement")]
         public string Arrangement { get; set; }
         [XmlAttribute(AttributeName = "editingBackgroundIsAllowed")]
-        public string EditingBackgroundIsAllowed { get; set; }
+        public bool EditingBackgroundIsAllowed { get; set; }
         [XmlAttribute(AttributeName = "firstSideIsPrintable")]
-        public string FirstSideIsPrintable { get; set; }
+        public bool FirstSideIsPrintable { get; set; }
         [XmlAttribute(AttributeName = "secondSideIsPrintable")]
-        public string SecondSideIsPrintable { get; set; }
+        public int SecondSideIsPrintable { get; set; }
         [XmlAttribute(AttributeName = "firstSidePageNumber")]
-        public string FirstSidePageNumber { get; set; }
+        public int FirstSidePageNumber { get; set; }
         [XmlAttribute(AttributeName = "secondSidePageNumber")]
-        public string SecondSidePageNumber { get; set; }
+        public int SecondSidePageNumber { get; set; }
         [XmlAttribute(AttributeName = "hasPageNumbers")]
-        public string HasPageNumbers { get; set; }
+        public bool HasPageNumbers { get; set; }
         [XmlElement(ElementName = "PageBinding")]
         public PageBinding PageBinding { get; set; }
     }

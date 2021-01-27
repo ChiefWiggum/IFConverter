@@ -9,8 +9,8 @@ namespace IFConverter.Base.Model.IFolor
         [XmlElement(ElementName = "PhotoInformation")]
         public List<PhotoInformation> PhotoInformation { get; set; }
         [XmlAttribute(AttributeName = "imageOrientationsAreEffective")]
-        public string ImageOrientationsAreEffective { get; set; }
+        public bool ImageOrientationsAreEffective { get; set; }
         [XmlAttribute(AttributeName = "imageIsJpegUpdated")]
-        public string ImageIsJpegUpdated { get; set; }
+        public bool ImageIsJpegUpdated { get; set; }
     }
 }

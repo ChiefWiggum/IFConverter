@@ -16,25 +16,25 @@ namespace IFConverter.Base.Model.IFolor
         [XmlAttribute(AttributeName = "anchor")]
         public string Anchor { get; set; }
         [XmlAttribute(AttributeName = "editingIsAllowed")]
-        public string EditingIsAllowed { get; set; }
+        public bool EditingIsAllowed { get; set; }
         [XmlAttribute(AttributeName = "editingContentIsAllowed")]
-        public string EditingContentIsAllowed { get; set; }
+        public bool EditingContentIsAllowed { get; set; }
         [XmlAttribute(AttributeName = "sizingIsAllowed")]
-        public string SizingIsAllowed { get; set; }
+        public bool SizingIsAllowed { get; set; }
         [XmlAttribute(AttributeName = "ratioIsFixed")]
-        public string RatioIsFixed { get; set; }
+        public bool RatioIsFixed { get; set; }
         [XmlAttribute(AttributeName = "movingIsAllowed")]
-        public string MovingIsAllowed { get; set; }
+        public bool MovingIsAllowed { get; set; }
         [XmlAttribute(AttributeName = "rotationIsAllowed")]
-        public string RotationIsAllowed { get; set; }
+        public bool RotationIsAllowed { get; set; }
         [XmlAttribute(AttributeName = "changingZOrderIsAllowed")]
-        public string ChangingZOrderIsAllowed { get; set; }
+        public bool ChangingZOrderIsAllowed { get; set; }
         [XmlAttribute(AttributeName = "deletingIsAllowed")]
-        public string DeletingIsAllowed { get; set; }
+        public bool DeletingIsAllowed { get; set; }
         [XmlAttribute(AttributeName = "editingDecorationIsAllowed")]
-        public string EditingDecorationIsAllowed { get; set; }
+        public bool EditingDecorationIsAllowed { get; set; }
         [XmlAttribute(AttributeName = "order")]
-        public string Order { get; set; }
+        public int Order { get; set; }
         [XmlAttribute(AttributeName = "backgroundOpacity")]
         public string BackgroundOpacity { get; set; }
         [XmlAttribute(AttributeName = "foregroundOpacity")]

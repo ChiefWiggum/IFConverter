@@ -8,17 +8,17 @@ namespace IFConverter.Base.Model.IFolor
         [XmlElement(ElementName = "Id")]
         public string Id { get; set; }
         [XmlAttribute(AttributeName = "isColorized")]
-        public string IsColorized { get; set; }
+        public bool IsColorized { get; set; }
         [XmlAttribute(AttributeName = "imageQuality")]
         public string ImageQuality { get; set; }
         [XmlAttribute(AttributeName = "imageType")]
         public string ImageType { get; set; }
         [XmlAttribute(AttributeName = "imagePixelWidth")]
-        public string ImagePixelWidth { get; set; }
+        public int ImagePixelWidth { get; set; }
         [XmlAttribute(AttributeName = "imagePixelHeight")]
-        public string ImagePixelHeight { get; set; }
+        public int ImagePixelHeight { get; set; }
         [XmlAttribute(AttributeName = "isFormerRtfText")]
-        public string IsFormerRtfText { get; set; }
+        public bool IsFormerRtfText { get; set; }
         [XmlAttribute(AttributeName = "enhancement")]
         public string Enhancement { get; set; }
     }

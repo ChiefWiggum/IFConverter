@@ -8,6 +8,6 @@ namespace IFConverter.Base.Model.IFolor
         [XmlElement(ElementName = "Rectangle")]
         public Rectangle Rectangle { get; set; }
         [XmlAttribute(AttributeName = "isFolded")]
-        public string IsFolded { get; set; }
+        public bool IsFolded { get; set; }
     }
 }

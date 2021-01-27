@@ -6,10 +6,10 @@ namespace IFConverter.Base.Model.IFolor
     public class ProjectCare
     {
         [XmlAttribute(AttributeName = "plugInClipartsAdjusted")]
-        public string PlugInClipartsAdjusted { get; set; }
+        public bool PlugInClipartsAdjusted { get; set; }
         [XmlAttribute(AttributeName = "cuttingToleranceAdjusted")]
-        public string CuttingToleranceAdjusted { get; set; }
+        public bool CuttingToleranceAdjusted { get; set; }
         [XmlAttribute(AttributeName = "imageOrientationAdjusted")]
-        public string ImageOrientationAdjusted { get; set; }
+        public bool ImageOrientationAdjusted { get; set; }
     }
 }

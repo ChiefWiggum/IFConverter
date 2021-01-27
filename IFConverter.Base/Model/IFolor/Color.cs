@@ -6,12 +6,12 @@ namespace IFConverter.Base.Model.IFolor
     public class Color
     {
         [XmlAttribute(AttributeName = "colorA")]
-        public string ColorA { get; set; }
+        public int ColorA { get; set; }
         [XmlAttribute(AttributeName = "colorR")]
-        public string ColorR { get; set; }
+        public int ColorR { get; set; }
         [XmlAttribute(AttributeName = "colorG")]
-        public string ColorG { get; set; }
+        public int ColorG { get; set; }
         [XmlAttribute(AttributeName = "colorB")]
-        public string ColorB { get; set; }
+        public int ColorB { get; set; }
     }
 }

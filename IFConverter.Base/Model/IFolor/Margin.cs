@@ -6,12 +6,12 @@ namespace IFConverter.Base.Model.IFolor
     public class Margin
     {
         [XmlAttribute(AttributeName = "left")]
-        public string Left { get; set; }
+        public int Left { get; set; }
         [XmlAttribute(AttributeName = "top")]
-        public string Top { get; set; }
+        public int Top { get; set; }
         [XmlAttribute(AttributeName = "right")]
-        public string Right { get; set; }
+        public int Right { get; set; }
         [XmlAttribute(AttributeName = "bottom")]
-        public string Bottom { get; set; }
+        public int Bottom { get; set; }
     }
 }

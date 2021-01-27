@@ -8,8 +8,8 @@ namespace IFConverter.Base.Model.IFolor
         [XmlElement(ElementName = "PageObjects")]
         public PageObjects PageObjects { get; set; }
         [XmlAttribute(AttributeName = "order")]
-        public string Order { get; set; }
+        public int Order { get; set; }
         [XmlAttribute(AttributeName = "acceptsNewPageObjects")]
-        public string AcceptsNewPageObjects { get; set; }
+        public bool AcceptsNewPageObjects { get; set; }
     }
 }

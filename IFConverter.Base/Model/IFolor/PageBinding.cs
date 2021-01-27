@@ -8,14 +8,14 @@ namespace IFConverter.Base.Model.IFolor
         [XmlAttribute(AttributeName = "type")]
         public string Type { get; set; }
         [XmlAttribute(AttributeName = "firstPartSpiralsCount")]
-        public string FirstPartSpiralsCount { get; set; }
+        public int FirstPartSpiralsCount { get; set; }
         [XmlAttribute(AttributeName = "secondPartSpiralsCount")]
-        public string SecondPartSpiralsCount { get; set; }
+        public int SecondPartSpiralsCount { get; set; }
         [XmlAttribute(AttributeName = "bindingShadowWidth")]
-        public string BindingShadowWidth { get; set; }
+        public int BindingShadowWidth { get; set; }
         [XmlAttribute(AttributeName = "holderWidth")]
-        public string HolderWidth { get; set; }
+        public int HolderWidth { get; set; }
         [XmlAttribute(AttributeName = "holderHeight")]
-        public string HolderHeight { get; set; }
+        public int HolderHeight { get; set; }
     }
 }

@@ -6,9 +6,9 @@ namespace IFConverter.Base.Model.IFolor
     public class PageBackground
     {
         [XmlAttribute(AttributeName = "order")]
-        public string Order { get; set; }
+        public int Order { get; set; }
         [XmlAttribute(AttributeName = "acceptsNewPageObjects")]
-        public string AcceptsNewPageObjects { get; set; }
+        public bool AcceptsNewPageObjects { get; set; }
         [XmlElement(ElementName = "PageObjects")]
         public PageObjects PageObjects { get; set; }
     }

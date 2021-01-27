@@ -1,3 +1,4 @@
+using System;
 using System.Xml.Serialization;
 
 namespace IFConverter.Base.Model.IFolor
@@ -22,6 +23,6 @@ namespace IFConverter.Base.Model.IFolor
         [XmlAttribute(AttributeName = "version")]
         public string Version { get; set; }
         [XmlAttribute(AttributeName = "created")]
-        public string Created { get; set; }
+        public DateTime Created { get; set; }
     }
 }

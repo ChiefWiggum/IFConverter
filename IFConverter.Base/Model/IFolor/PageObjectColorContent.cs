@@ -8,7 +8,7 @@ namespace IFConverter.Base.Model.IFolor
         [XmlElement(ElementName = "Color")]
         public Color Color { get; set; }
         [XmlAttribute(AttributeName = "isColorized")]
-        public string IsColorized { get; set; }
+        public bool IsColorized { get; set; }
         [XmlAttribute(AttributeName = "type")]
         public string Type { get; set; }
     }
