@@ -6,6 +6,6 @@ namespace IFConverter.Base.Model.IFolor
     public class RotationOperation
     {
         [XmlAttribute(AttributeName = "degree")]
-        public string Degree { get; set; }
+        public int Degree { get; set; }
     }
 }

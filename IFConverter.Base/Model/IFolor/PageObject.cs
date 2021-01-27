@@ -2,6 +2,13 @@ using System.Xml.Serialization;
 
 namespace IFConverter.Base.Model.IFolor
 {
+    public enum ContentType
+    {
+        Undefined,
+        Image,
+        Text
+    }
+
     [XmlRoot(ElementName = "PageObject")]
     public class PageObject
     {
@@ -40,7 +47,7 @@ namespace IFConverter.Base.Model.IFolor
         [XmlAttribute(AttributeName = "foregroundOpacity")]
         public string ForegroundOpacity { get; set; }
         [XmlAttribute(AttributeName = "defaultContentType")]
-        public string DefaultContentType { get; set; }
+        public ContentType DefaultContentType { get; set; }
         [XmlAttribute(AttributeName = "shadow")]
         public string Shadow { get; set; }
         [XmlElement(ElementName = "TextStyle")]

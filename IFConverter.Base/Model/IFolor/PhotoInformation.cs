@@ -2,6 +2,14 @@ using System.Xml.Serialization;
 
 namespace IFConverter.Base.Model.IFolor
 {
+    public enum PictureOrientation
+    {
+        Undefined,
+        Rotated90,
+        Rotated180,
+        Rotated270,
+    }
+
     [XmlRoot(ElementName = "PhotoInformation")]
     public class PhotoInformation
     {
@@ -14,6 +22,6 @@ namespace IFConverter.Base.Model.IFolor
         [XmlAttribute(AttributeName = "isJpeg")]
         public bool IsJpeg { get; set; }
         [XmlAttribute(AttributeName = "pictureOrientation")]
-        public string PictureOrientation { get; set; }
+        public PictureOrientation PictureOrientation { get; set; }
     }
 }
