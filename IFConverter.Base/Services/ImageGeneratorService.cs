@@ -1,4 +1,5 @@
 using IFConverter.Base.Model.IFolor;
+using IFConverter.Base.Model.Xaml;
 using System;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
@@ -9,6 +10,7 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System.Linq;
 using System.IO;
+using SixLabors.Fonts;
 // using SixLabors.Primitives;
 
 namespace IFConverter.Base.Services
@@ -16,7 +18,13 @@ namespace IFConverter.Base.Services
     public class ImageGeneratorService : IImageGeneratorService
     {
         private const string leadingZeros = "000";
-        public void GenerateImage(Page page, string photobookDirectory)
+        private readonly IIFolorService _iFolorService;
+
+        public ImageGeneratorService()
+        {
+            _iFolorService = new IFolorService();
+        }
+        public void GenerateImage(PhotobookProject project, Page page, string photobookDirectory)
         {
             if (page is null)
             {
@@ -35,13 +43,13 @@ namespace IFConverter.Base.Services
             {
                 foreach (var obj in page.PageBackground.PageObjects.OrderBy(o => o.Order))
                 {
-                    DrawPageObject(outputImage, obj, photobookDirectory);
+                    DrawPageObject(project, outputImage, obj, photobookDirectory);
                 }
                 foreach (var layer in page.PageLayers.OrderBy(l => l.Order))
                 {
                     foreach (var obj in layer.PageObjects.OrderBy(o => o.Order))
                     {
-                        DrawPageObject(outputImage, obj, photobookDirectory);
+                        DrawPageObject(project, outputImage, obj, photobookDirectory);
                     }
                 }
 
@@ -54,38 +62,137 @@ namespace IFConverter.Base.Services
             }
         }
 
-        private static void DrawPageObject(Image<Rgba32> outputImage, PageObject obj, string photobookDirectory)
+        private void DrawPageObject(PhotobookProject project, Image<Rgba32> outputImage, PageObject obj, string photobookDirectory)
         {
             switch (obj.DefaultContentType)
             {
                 //2021 Model
                 case ContentType.Image when obj.Foreground != null && obj.Foreground.ContentType == ContentType.Image && obj.Foreground?.PageObjectImageContent != null:
-                    DrawImage(outputImage, obj, photobookDirectory, obj.Foreground.PageObjectImageContent.Id.Split('|').First());
+                    DrawImage(project, outputImage, obj, photobookDirectory, obj.Foreground.PageObjectImageContent.Id.Split('|').First());
                     break;
 
                 // Legacy Model
                 case ContentType.Image when obj.Foreground != null && obj.Foreground.ContentType == ContentType.PageObjectImageContent && obj.Foreground?.Id != null:
-                    DrawImage(outputImage, obj, photobookDirectory, obj.Foreground.Id.Split('|').First());
+                    DrawImage(project, outputImage, obj, photobookDirectory, obj.Foreground.Id.Split('|').First());
+                    break;
+//2021 Model
+
+                case ContentType.Text when obj.Foreground != null && obj.Foreground?.PageObjectTextContent?.TextId != null:
+                    DrawText(outputImage, obj, photobookDirectory, obj.Foreground.PageObjectTextContent.TextId);
                     break;
 
-                case ContentType.Text:
-                case ContentType.PageObjectTextContent:
+//Legacy Model
+                case ContentType.Text when obj.Foreground != null && obj.Foreground.ContentType == ContentType.PageObjectTextContent && obj.Foreground?.TextId != null:
+                    DrawText(outputImage, obj, photobookDirectory, obj.Foreground.TextId);
 
                     break;
             }
         }
 
-        private static void DrawImage(Image<Rgba32> outputImage, PageObject obj, string photobookDirectory, string fileName)
+
+        private void DrawText(Image<Rgba32> outputImage, PageObject obj, string photobookDirectory, string fileName)
+        {
+            FontFamily fontFamily = SystemFonts.Find(obj.TextStyle.FontName);
+
+            var font = new SixLabors.Fonts.Font(fontFamily, obj.TextStyle.FontSize, GetFontStyle(obj.TextStyle));
+
+            // The options are optional
+            TextGraphicsOptions options = new TextGraphicsOptions()
+            {
+                TextOptions = new TextOptions
+                {
+                    ApplyKerning = true,
+                    TabWidth = 8, // a tab renders as 8 spaces wide
+                    WrapTextWidth = 100, //TODO // greater than zero so we will word wrap at 100 pixels wide
+                    HorizontalAlignment = GetHorizontalAlignment(obj.TextStyle.HorizontalAlign)
+                }
+            };
+
+            var color = GetColor(obj.TextStyle.Color);
+
+            string text = GetText(obj, photobookDirectory, fileName);
+
+            outputImage.Mutate(x => x.DrawText(options, text, font, color, new PointF(Convert.ToInt32(obj.Rectangle.X), Convert.ToInt32(obj.Rectangle.Y))));
+        }
+
+        private string GetText(PageObject obj, string photobookDirectory, string fileName)
+        {
+            var filePath = Path.Join(photobookDirectory, "Texts", fileName);
+
+            var section = _iFolorService.GetTextSection(filePath);
+
+            return section.Paragraph.Run.Text;
+        }
+
+        private SixLabors.ImageSharp.Color GetColor(Model.IFolor.Color color)
+        {
+            return new SixLabors.ImageSharp.Color(new Rgba32(color.ColorR, color.ColorG, color.ColorB, color.ColorA));
+        }
+
+        private FontStyle GetFontStyle(TextStyle textStyle)
+        {
+            if (textStyle.Bold && textStyle.Italic) return FontStyle.BoldItalic;
+            if (textStyle.Bold) return FontStyle.Bold;
+            if (textStyle.Italic) return FontStyle.Italic;
+
+            return FontStyle.Regular;
+        }
+        private HorizontalAlignment GetHorizontalAlignment(Align horizontalAlign)
+        {
+            switch (horizontalAlign)
+            {
+                case Align.Left:
+                    return HorizontalAlignment.Left;
+                case Align.Center:
+                    return HorizontalAlignment.Center;
+
+                default:
+                    return HorizontalAlignment.Right;
+            }
+        }
+
+        private void DrawImage(PhotobookProject project, Image<Rgba32> outputImage, PageObject obj, string photobookDirectory, string fileName)
         {
             if (fileName != null)
             {
+                var photoInfo = project.PhotoInformations.PhotoInformation.FirstOrDefault(p => p.FileName == fileName);
+                if (photoInfo == null) throw new Exception($"Missing PhotoInfo for {fileName}");
+
                 var filePath = Path.Join(photobookDirectory, "Photos", fileName);
 
                 using (Image<Rgba32> img = Image.Load<Rgba32>(filePath))
                 {
+                    if (photoInfo.PictureOrientation != PictureOrientation.Undefined)
+                    {
+                        var rotateMode = GetRotateMode(photoInfo.PictureOrientation);
+
+                        img.Mutate(o => o.Rotate(rotateMode));
+                    }
+
+                    //TODO VisibleRectOperation: levelingAngle
+                    //TODO VisibleRectOperation: scaleFactor
+
                     img.Mutate(o => o.Resize(new Size(Convert.ToInt32(obj.Rectangle.Width), Convert.ToInt32(obj.Rectangle.Height))));
                     outputImage.Mutate(o => o.DrawImage(img, new Point(Convert.ToInt32(obj.Rectangle.X), Convert.ToInt32(obj.Rectangle.Y)), 1f));
                 }
+            }
+        }
+
+        private static RotateMode GetRotateMode(PictureOrientation pictureOrientation)
+        {
+            switch (pictureOrientation)
+            {
+                case PictureOrientation.Rotated90:
+                    return RotateMode.Rotate270;
+
+                case PictureOrientation.Rotated180:
+                    return RotateMode.Rotate180;
+
+                case PictureOrientation.Rotated270:
+                    return RotateMode.Rotate90;
+
+                default:
+                    return RotateMode.None;
             }
         }
     }

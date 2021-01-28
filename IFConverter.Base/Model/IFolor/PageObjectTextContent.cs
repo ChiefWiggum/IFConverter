@@ -15,6 +15,6 @@ namespace IFConverter.Base.Model.IFolor
         [XmlElement(ElementName = "Margin")]
         public Margin Margin { get; set; }
         [XmlArray("UsedFonts")]
-        public List<UsedFont> UsedFonts { get; set; }
+        public List<Font> UsedFonts { get; set; }
     }
 }

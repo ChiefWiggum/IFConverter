@@ -18,10 +18,10 @@ namespace IFConverter.Base.Tests.Services
             var project = _ifolorService.LoadPhotobook(file);
 
             //When
-            _imageService.GenerateImage(project.Cover, "../../../Data/Test1/");
+            _imageService.GenerateImage(project, project.Cover, "../../../Data/Test1/");
             foreach (var page in project.Pages)
             {
-                _imageService.GenerateImage(page, "../../../Data/Test1/");
+                _imageService.GenerateImage(project, page, "../../../Data/Test1/");
             }
             
 
