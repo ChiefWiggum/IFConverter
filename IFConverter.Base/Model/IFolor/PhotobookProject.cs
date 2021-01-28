@@ -27,6 +27,6 @@ namespace IFConverter.Base.Model.IFolor
         [XmlAttribute(AttributeName = "version")]
         public string Version { get; set; }
         [XmlAttribute(AttributeName = "created")]
-        public DateTime Created { get; set; }
+        public string Created { get; set; } //Formats: 2021: "2021-01-24T21:49:37", Legacy: "20180926T210711"
     }
 }

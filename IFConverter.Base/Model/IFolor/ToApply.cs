@@ -7,5 +7,8 @@ namespace IFConverter.Base.Model.IFolor
     {
         [XmlElement(ElementName = "RotationOperation")]
         public RotationOperation RotationOperation { get; set; }
+    
+        [XmlElement(ElementName = "VisibleRectOperation")]
+        public VisibleRectOperation VisibleRectOperation { get; set; }
     }
 }

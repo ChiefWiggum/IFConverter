@@ -15,6 +15,7 @@ namespace IFConverter.Base.Services
 {
     public class ImageGeneratorService : IImageGeneratorService
     {
+        private const string leadingZeros = "000";
         public void GenerateImage(Page page, string photobookDirectory)
         {
             if (page is null)
@@ -22,7 +23,13 @@ namespace IFConverter.Base.Services
                 throw new ArgumentNullException(nameof(page));
             }
 
-            var fileName = page.PageDescription.FirstSidePageNumber == -1 ? "cover" : $"{page.PageDescription.FirstSidePageNumber}-{page.PageDescription.SecondSidePageNumber}";
+            var fileName = page.PageDescription.FirstSidePageNumber == -1 && page.PageDescription.SecondSidePageNumber == -1
+            ? $"{leadingZeros}-cover"
+            : page.PageDescription.FirstSidePageNumber == -1
+            ? page.PageDescription.SecondSidePageNumber.ToString(leadingZeros)
+            : page.PageDescription.SecondSidePageNumber == -1
+            ? page.PageDescription.FirstSidePageNumber.ToString(leadingZeros)
+            : $"{page.PageDescription.FirstSidePageNumber.ToString(leadingZeros)}-{page.PageDescription.SecondSidePageNumber.ToString(leadingZeros)}";
 
             using (Image<Rgba32> outputImage = new Image<Rgba32>(page.PageDescription.Width, page.PageDescription.Height))
             {
@@ -40,9 +47,9 @@ namespace IFConverter.Base.Services
 
                 var outputDirectory = Path.Join(photobookDirectory, "Export");
                 DirectoryInfo dirInfo = new DirectoryInfo(outputDirectory);
-                if(!dirInfo.Exists)dirInfo.Create();
-                
-                var outputPath = Path.Join(outputDirectory,$"{fileName}.png");
+                if (!dirInfo.Exists) dirInfo.Create();
+
+                var outputPath = Path.Join(outputDirectory, $"{fileName}.png");
                 outputImage.Save(outputPath);
             }
         }
@@ -51,22 +58,34 @@ namespace IFConverter.Base.Services
         {
             switch (obj.DefaultContentType)
             {
-                case ContentType.Image:
-                    if (obj.Foreground == null || obj.Foreground.PageObjectImageContent == null) return;
-                    var objFileName = obj.Foreground.PageObjectImageContent.Id.Split('|').First();
-                    var objFilePath = Path.Join(photobookDirectory, "Photos", objFileName);
+                //2021 Model
+                case ContentType.Image when obj.Foreground != null && obj.Foreground.ContentType == ContentType.Image && obj.Foreground?.PageObjectImageContent != null:
+                    DrawImage(outputImage, obj, photobookDirectory, obj.Foreground.PageObjectImageContent.Id.Split('|').First());
+                    break;
 
-                    using (Image<Rgba32> img = Image.Load<Rgba32>(objFilePath))
-                    {
-                        img.Mutate(o => o.Resize(new Size(Convert.ToInt32(obj.Rectangle.Width), Convert.ToInt32(obj.Rectangle.Height))));
-                        outputImage.Mutate(o => o.DrawImage(img, new Point(Convert.ToInt32(obj.Rectangle.X), Convert.ToInt32(obj.Rectangle.Y)), 1f));
-                    }
-
+                // Legacy Model
+                case ContentType.Image when obj.Foreground != null && obj.Foreground.ContentType == ContentType.PageObjectImageContent && obj.Foreground?.Id != null:
+                    DrawImage(outputImage, obj, photobookDirectory, obj.Foreground.Id.Split('|').First());
                     break;
 
                 case ContentType.Text:
+                case ContentType.PageObjectTextContent:
 
                     break;
+            }
+        }
+
+        private static void DrawImage(Image<Rgba32> outputImage, PageObject obj, string photobookDirectory, string fileName)
+        {
+            if (fileName != null)
+            {
+                var filePath = Path.Join(photobookDirectory, "Photos", fileName);
+
+                using (Image<Rgba32> img = Image.Load<Rgba32>(filePath))
+                {
+                    img.Mutate(o => o.Resize(new Size(Convert.ToInt32(obj.Rectangle.Width), Convert.ToInt32(obj.Rectangle.Height))));
+                    outputImage.Mutate(o => o.DrawImage(img, new Point(Convert.ToInt32(obj.Rectangle.X), Convert.ToInt32(obj.Rectangle.Y)), 1f));
+                }
             }
         }
     }

@@ -5,8 +5,14 @@ namespace IFConverter.Base.Model.IFolor
     public enum ContentType
     {
         Undefined,
+
+        // 2021 Values
         Image,
-        Text
+        Text,
+
+        // Legacy Values
+        PageObjectImageContent,
+        PageObjectTextContent,
     }
 
     [XmlRoot(ElementName = "PageObject")]
@@ -21,7 +27,7 @@ namespace IFConverter.Base.Model.IFolor
         [XmlAttribute(AttributeName = "role")]
         public string Role { get; set; }
         [XmlAttribute(AttributeName = "anchor")]
-        public string Anchor { get; set; }
+        public string Anchor { get; set; }  //Examples: 2021: "Left Right Top Bottom", Legacy: "Left,Right,Top,Bottom"
         [XmlAttribute(AttributeName = "editingIsAllowed")]
         public bool EditingIsAllowed { get; set; }
         [XmlAttribute(AttributeName = "editingContentIsAllowed")]
