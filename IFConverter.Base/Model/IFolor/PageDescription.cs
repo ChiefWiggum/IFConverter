@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace IFConverter.Base.Model.IFolor
@@ -10,7 +11,7 @@ namespace IFConverter.Base.Model.IFolor
         [XmlElement(ElementName = "PageCutting")]
         public PageCutting PageCutting { get; set; }
         [XmlElement(ElementName = "ProductionObjects")]
-        public ProductionObjects ProductionObjects { get; set; }
+        public List<ProductionObject> ProductionObjects { get; set; }
         [XmlAttribute(AttributeName = "width")]
         public int Width { get; set; }
         [XmlAttribute(AttributeName = "height")]

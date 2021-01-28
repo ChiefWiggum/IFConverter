@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace IFConverter.Base.Model.IFolor
@@ -5,8 +6,8 @@ namespace IFConverter.Base.Model.IFolor
     [XmlRoot(ElementName = "PageLayer")]
     public class PageLayer
     {
-        [XmlElement(ElementName = "PageObjects")]
-        public PageObjects PageObjects { get; set; }
+        [XmlArray("PageObjects")]
+        public List<PageObject> PageObjects { get; set; }
         [XmlAttribute(AttributeName = "order")]
         public int Order { get; set; }
         [XmlAttribute(AttributeName = "acceptsNewPageObjects")]

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace IFConverter.Base.Model.IFolor
@@ -15,9 +16,12 @@ namespace IFConverter.Base.Model.IFolor
         [XmlElement(ElementName = "PhotoInformations")]
         public PhotoInformations PhotoInformations { get; set; }
         [XmlElement(ElementName = "Cover")]
-        public Cover Cover { get; set; }
-        [XmlElement(ElementName = "Pages")]
-        public Pages Pages { get; set; }
+        public Page Cover { get; set; }
+
+        // [XmlElement(ElementName = "Pages")]
+        [XmlArray("Pages")]
+        [XmlArrayItem("IfolorPage")]
+        public List<Page> Pages { get; set; }
         [XmlAttribute(AttributeName = "designCenterVersion")]
         public string DesignCenterVersion { get; set; }
         [XmlAttribute(AttributeName = "version")]

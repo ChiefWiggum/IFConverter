@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace IFConverter.Base.Model.IFolor
@@ -10,6 +11,6 @@ namespace IFConverter.Base.Model.IFolor
         [XmlAttribute(AttributeName = "acceptsNewPageObjects")]
         public bool AcceptsNewPageObjects { get; set; }
         [XmlElement(ElementName = "PageObjects")]
-        public PageObjects PageObjects { get; set; }
+        public List<PageObject> PageObjects { get; set; }
     }
 }

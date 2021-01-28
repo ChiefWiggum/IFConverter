@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace IFConverter.Base.Model.IFolor
@@ -13,7 +14,7 @@ namespace IFConverter.Base.Model.IFolor
         public string VerticalTextAlign { get; set; }
         [XmlElement(ElementName = "Margin")]
         public Margin Margin { get; set; }
-        [XmlElement(ElementName = "UsedFonts")]
-        public UsedFonts UsedFonts { get; set; }
+        [XmlArray("UsedFonts")]
+        public List<UsedFont> UsedFonts { get; set; }
     }
 }
