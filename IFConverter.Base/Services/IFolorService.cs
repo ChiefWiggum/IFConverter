@@ -53,6 +53,41 @@ namespace IFConverter.Base.Services
                 throw;
             }
         }
+        public Stream GetXaml(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                throw new ArgumentException($"'{nameof(filePath)}' cannot be null or whitespace.", nameof(filePath));
+            }
+            var textFile = new FileInfo(filePath);
+            if (!textFile.Exists)
+            {
+                throw new ArgumentOutOfRangeException(nameof(filePath), filePath, "File not found.");
+            }
+
+                        try
+            {
+                using (FileStream fileStream = textFile.OpenRead())
+                {
+                    fileStream.Position = GzipOffset;
+
+                    using (GZipStream decompressionStream = new GZipStream(fileStream, CompressionMode.Decompress))
+                    {
+                        var zipFile = new ZipArchive(decompressionStream);
+                        var document = zipFile.GetEntry("Xaml/Document.xaml");
+
+                        return document.Open();
+                        
+                    }
+                }
+
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+        }
 
         public PhotobookProject LoadPhotobook(string filePath)
         {

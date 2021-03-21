@@ -1,3 +1,4 @@
+using System.IO;
 using IFConverter.Base.Model.IFolor;
 using IFConverter.Base.Model.Xaml;
 
@@ -7,5 +8,6 @@ namespace IFConverter.Base.Services
     {
         PhotobookProject LoadPhotobook(string filePath);
         Section GetTextSection(string filePath);
+        Stream GetXaml(string filePath);
     }
 }

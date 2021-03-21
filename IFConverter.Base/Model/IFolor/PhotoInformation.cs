@@ -4,10 +4,10 @@ namespace IFConverter.Base.Model.IFolor
 {
     public enum PictureOrientation
     {
-        Undefined,
-        Rotated90,
-        Rotated180,
-        Rotated270,
+        Undefined = 0,
+        Rotated90 = 90,
+        Rotated180 = 180,
+        Rotated270 = 270,
     }
 
     [XmlRoot(ElementName = "PhotoInformation")]

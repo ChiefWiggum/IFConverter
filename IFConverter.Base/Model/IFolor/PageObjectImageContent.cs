@@ -28,5 +28,8 @@ namespace IFConverter.Base.Model.IFolor
         public bool IsFormerRtfText { get; set; }
         [XmlAttribute(AttributeName = "enhancement")]
         public string Enhancement { get; set; }
+
+        [XmlElement(ElementName = "Processing")]
+        public Processing Processing { get; set; }
     }
 }

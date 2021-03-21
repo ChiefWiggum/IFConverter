@@ -27,6 +27,25 @@ namespace IFConverter.Base.Tests.Services
 
             //Then
         }
+        
+        [Fact]
+        public void TestLoadPhotobook_CooksIslands()
+        {
+            //Given
+            var file = @"D:\Documents\ifolor\Photobooks\Cook Islands 2014\Project.ipp";
+            var project = _ifolorService.LoadPhotobook(file);
+
+            //When
+            //_imageService.GenerateImage(project, project.Pages[2], @"D:\Documents\ifolor\Photobooks\Cook Islands 2014\");
+            _imageService.GenerateImage(project, project.Cover, @"D:\Documents\ifolor\Photobooks\Cook Islands 2014\");
+            foreach (var page in project.Pages)
+            {
+                _imageService.GenerateImage(project, page, @"D:\Documents\ifolor\Photobooks\Cook Islands 2014\");
+            }
+            
+
+            //Then
+        }
 
         public IImageGeneratorServiceTests()
         {
