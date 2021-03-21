@@ -28,6 +28,7 @@ namespace IFConverter.Base.Tests.Services
             //Then
         }
         
+        // Private photo book with more complex layout. Use your own :-)
         [Fact]
         public void TestLoadPhotobook_CooksIslands()
         {
