@@ -4,6 +4,7 @@ namespace IFConverter.Base.Services
 {
     public interface IImageGeneratorService
     {
-        void GenerateImage(PhotobookProject project, Page page, string photobookDirectory);
+        void RenderPage(PhotobookProject project, Page page, string photobookDirectory, string exportDirectory);
+        void RenderAllPages(PhotobookProject project, string photobookDirectory, string exportDirectory);
     }
 }

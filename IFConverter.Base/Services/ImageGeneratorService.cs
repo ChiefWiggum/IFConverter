@@ -30,7 +30,7 @@ namespace IFConverter.Base.Services
             _iFolorService = new IFolorService();
             _xamlService = new XamlService();
         }
-        public void GenerateImage(PhotobookProject project, Page page, string photobookDirectory)
+        public void RenderPage(PhotobookProject project, Page page, string photobookDirectory, string exportDirectory)
         {
             if (page is null)
             {
@@ -58,8 +58,7 @@ namespace IFConverter.Base.Services
                         DrawPageObject(project, outputImage, obj, photobookDirectory);
                     }
                 }
-
-                var outputDirectory = Path.Join(photobookDirectory, "Export");
+                var outputDirectory = Path.IsPathFullyQualified(exportDirectory) ? exportDirectory : Path.Join(photobookDirectory, exportDirectory);
                 DirectoryInfo dirInfo = new DirectoryInfo(outputDirectory);
                 if (!dirInfo.Exists) dirInfo.Create();
 
@@ -280,6 +279,15 @@ namespace IFConverter.Base.Services
 
                 default:
                     return RotateMode.None;
+            }
+        }
+
+        public void RenderAllPages(PhotobookProject project, string photobookDirectory, string exportDirectory)
+        {
+            RenderPage(project, project.Cover, photobookDirectory, exportDirectory);
+            foreach (var page in project.Pages)
+            {
+                RenderPage(project, page, photobookDirectory, exportDirectory);
             }
         }
     }

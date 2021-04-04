@@ -18,10 +18,10 @@ namespace IFConverter.Base.Tests.Services
             var project = _ifolorService.LoadPhotobook(file);
 
             //When
-            _imageService.GenerateImage(project, project.Cover, "../../../Data/Test1/");
+            _imageService.RenderPage(project, project.Cover, "../../../Data/Test1/", "Export");
             foreach (var page in project.Pages)
             {
-                _imageService.GenerateImage(project, page, "../../../Data/Test1/");
+                _imageService.RenderPage(project, page, "../../../Data/Test1/", "Export");
             }
             
 
@@ -38,10 +38,10 @@ namespace IFConverter.Base.Tests.Services
 
             //When
             //_imageService.GenerateImage(project, project.Pages[2], @"D:\Documents\ifolor\Photobooks\Cook Islands 2014\");
-            _imageService.GenerateImage(project, project.Cover, @"D:\Documents\ifolor\Photobooks\Cook Islands 2014\");
+            _imageService.RenderPage(project, project.Cover, @"D:\Documents\ifolor\Photobooks\Cook Islands 2014\", "Export");
             foreach (var page in project.Pages)
             {
-                _imageService.GenerateImage(project, page, @"D:\Documents\ifolor\Photobooks\Cook Islands 2014\");
+                _imageService.RenderPage(project, page, @"D:\Documents\ifolor\Photobooks\Cook Islands 2014\", "Export");
             }
             
 
