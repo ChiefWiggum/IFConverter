@@ -37,13 +37,7 @@ namespace IFConverter.Base.Services
                 throw new ArgumentNullException(nameof(page));
             }
 
-            var fileName = page.PageDescription.FirstSidePageNumber == -1 && page.PageDescription.SecondSidePageNumber == -1
-            ? $"{leadingZeros}-cover"
-            : page.PageDescription.FirstSidePageNumber == -1
-            ? page.PageDescription.SecondSidePageNumber.ToString(leadingZeros)
-            : page.PageDescription.SecondSidePageNumber == -1
-            ? page.PageDescription.FirstSidePageNumber.ToString(leadingZeros)
-            : $"{page.PageDescription.FirstSidePageNumber.ToString(leadingZeros)}-{page.PageDescription.SecondSidePageNumber.ToString(leadingZeros)}";
+            string fileName = GetFileName(page.PageDescription);
 
             using (Image<Rgba32> outputImage = new Image<Rgba32>(page.PageDescription.Width, page.PageDescription.Height))
             {
@@ -59,12 +53,23 @@ namespace IFConverter.Base.Services
                     }
                 }
                 var outputDirectory = Path.IsPathFullyQualified(exportDirectory) ? exportDirectory : Path.Join(photobookDirectory, exportDirectory);
-                DirectoryInfo dirInfo = new DirectoryInfo(outputDirectory);
+                var dirInfo = new DirectoryInfo(outputDirectory);
                 if (!dirInfo.Exists) dirInfo.Create();
 
                 var outputPath = Path.Join(outputDirectory, $"{fileName}.png");
                 outputImage.Save(outputPath);
             }
+        }
+
+        private static string GetFileName(PageDescription pageDescription)
+        {
+            return pageDescription.FirstSidePageNumber == -1 && pageDescription.SecondSidePageNumber == -1
+            ? $"{leadingZeros}-cover"
+            : pageDescription.FirstSidePageNumber == -1
+            ? pageDescription.SecondSidePageNumber.ToString(leadingZeros)
+            : pageDescription.SecondSidePageNumber == -1
+            ? pageDescription.FirstSidePageNumber.ToString(leadingZeros)
+            : $"{pageDescription.FirstSidePageNumber.ToString(leadingZeros)}-{pageDescription.SecondSidePageNumber.ToString(leadingZeros)}";
         }
 
         private void DrawPageObject(PhotobookProject project, Image<Rgba32> outputImage, PageObject obj, string photobookDirectory)
